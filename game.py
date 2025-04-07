@@ -1,4 +1,3 @@
-
 import os
 from faker import Faker
 from my_file_operations import render_template
@@ -6,7 +5,9 @@ import random
 
 
 FOLDER_PATH = "Cards"
-skills = [
+
+
+SKILLS = [
     "Стремительный прыжок",
     "Электрический выстрел",
     "Ледяной удар",
@@ -17,7 +18,8 @@ skills = [
     "Огненный заряд",
 ]
 
-letters = {
+
+LETTERS = {
     'а': 'а͠',
     'б': 'б̋',
     'в': 'в͒͠',
@@ -87,16 +89,18 @@ letters = {
     ' ': ' ',
 }
 
-def generate_card(i):
-    selected_skills = random.sample(skills, 3)
+
+def generate_card(i, fake):
+    selected_skills = random.sample(SKILLS, 3)
 
     runic_skills = []
     for skill in selected_skills:
         runic_skill = skill
-        for letter, rune in letters.items():
+        for letter, rune in LETTERS.items():
             runic_skill = runic_skill.replace(letter, rune)
         runic_skills.append(runic_skill)
 
+    # Переместил создание переменной context сюда
     context = {
         "first_name": fake.first_name(),
         "last_name": fake.last_name(),
@@ -113,21 +117,18 @@ def generate_card(i):
     }
 
     output_file = os.path.join(FOLDER_PATH, f"card_{i + 1}.svg")
-
-    
     os.makedirs(FOLDER_PATH, exist_ok=True)
 
-    with open(output_file, "w") as my_file:  
+    with open(output_file, "w") as my_file:
         render_template("template.svg", output_file, context)
 
-    print(f"Карточка {i + 1} успешно сохранена в {output_file}")
 
 
 def main():
+    fake = Faker("ru_RU")
     for i in range(10):
-        generate_card(i)
+        generate_card(i, fake)
 
 
 if __name__ == '__main__':
-    fake = Faker("ru_RU")
     main()

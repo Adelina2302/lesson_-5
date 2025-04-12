@@ -100,7 +100,7 @@ def generate_card(i, fake):
             runic_skill = runic_skill.replace(letter, rune)
         runic_skills.append(runic_skill)
 
-    # Переместил создание переменной context сюда
+    
     context = {
         "first_name": fake.first_name(),
         "last_name": fake.last_name(),
@@ -123,7 +123,6 @@ def generate_card(i, fake):
         render_template("template.svg", output_file, context)
 
 
-
 def main():
     fake = Faker("ru_RU")
     for i in range(10):
@@ -132,3 +131,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
